@@ -2,7 +2,7 @@
 layout: post
 title:  "first day"
 date:   2018-4-8
-excerpt: "my github"
+excerpt: "my github start..."
 image: "/images/pic02.jpg"
 ---
 
