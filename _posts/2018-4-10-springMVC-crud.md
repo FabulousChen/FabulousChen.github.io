@@ -24,65 +24,61 @@ image: "/images/springmvc.png"
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
  
- <!-- 配置：把post请求可以更改为delete和put请求 -->
- <filter>
- 	<filter-name>HiddenHttpMethodFilter</filter-name>
- 	<filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
- </filter>
- <filter-mapping>
- 	<filter-name>HiddenHttpMethodFilter</filter-name>
- 	<url-pattern>/*</url-pattern>
- </filter-mapping>
-</web-app>
+	<配置：把post请求可以更改为delete和put请求>
+	<filter>
+		<filter-name>HiddenHttpMethodFilter</filter-name>
+		<filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>HiddenHttpMethodFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	</web-app>
 
 ## Spring配置文件
-<context:component-scan base-package="com.chen.springmvc"></context:component-scan>
+	<context:component-scan base-package="com.chen.springmvc"></context:component-scan>
+	< 配置视图解析器>
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/views/"></property>
+		<property name="suffix" value=".jsp"></property>
+	</bean>
 
-<!-- 配置视图解析器 -->
-<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-	<property name="prefix" value="/WEB-INF/views/"></property>
-	<property name="suffix" value=".jsp"></property>
-</bean>
-
-<!-- mvc:default-servlet-handler表示如果你访问的是一个没有映射的资源
-首先会按照静态资源处理，如果没找到对应的静态资源
-在找是否映射过，若有则访问若无则404 -->
-<mvc:default-servlet-handler/>
-<mvc:annotation-driven></mvc:annotation-driven>
-
+	<mvc:default-servlet-handler表示如果你访问的是一个没有映射的资源
+	首先会按照静态资源处理，如果没找到对应的静态资源
+	在找是否映射过，若有则访问若无则404 -->
+	<mvc:default-servlet-handler/>
+	<mvc:annotation-driven></mvc:annotation-driven>
+	
 ## index页面先超链接到emps对应handler如下
-@RequestMapping("/emps")
-	public String list(Map<String,Object> map){	
-		map.put("employees", employeeDao.getAll());
-		return "list";
-	}
+	@RequestMapping("/emps")
+		public String list(Map<String,Object> map){	
+			map.put("employees", employeeDao.getAll());
+			return "list";
+		}
 	
-	通过spring的配置文件以上方法会映射到/WEB-INF/views/list.jsp
+		通过spring的配置文件以上方法会映射到/WEB-INF/views/list.jsp
 	
 	
-	## list.jsp
-	
+## list.jsp
 	<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
-<!-- springmvc处理静态资源 比如jquery的资源文件 springnvc会按照请求处理但是找不到映射
-	解决方案：在springmvc配置文件中配置<mvc:default-servlet-handler/>
+	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+	<html>
+	<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Insert title here</title>
+	< springmvc处理静态资源 比如jquery的资源文件 springnvc会按照请求处理但是找不到映射>
+	<解决方案：在springmvc配置文件中配置mvc:default-servlet-handler>
 	并加入<mvc:annotation-driven></mvc:annotation-driven>
-	
- -->
- <!-- 因为只有post请求才可以利用web的配置文件将其改变为delete或者put请求
- 所以要引入jquery将a标签的get请求转换为post请求-->
-<script type="text/javascript" src="script/jquery-3.3.1.js"></script>
-<script type="text/javascript">
-	$(function(){
-		$(".delete").click(function(){
-			var href=$(this).attr("href");
-			$("form").attr("action",href).submit();
+	< 因为只有post请求才可以利用web的配置文件将其改变为delete或者put请求
+	所以要引入jquery将a标签的get请求转换为post请求-->
+	<script type="text/javascript" src="script/jquery-3.3.1.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$(".delete").click(function(){
+				var href=$(this).attr("href");
+				$("form").attr("action",href).submit();
 			
 			return false;
 		});
